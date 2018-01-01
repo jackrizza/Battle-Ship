@@ -1,0 +1,81 @@
+@font-face {
+    font-family: "8bit";
+    src: url("../assets/8-BITWONDER.TTF");
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "8bit";
+    background: url(../assets/background.png);
+    background-size: 100%;
+    user-select: none;
+}
+
+#app {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#user {
+    position: absolute;
+    max-width: 64px;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    margin-top: -32px;
+    margin-left: -32px;
+}
+#debug {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    padding: 8px;
+    width: 128px;
+    height: 128px;
+    font-family: "helvetica";
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid black;
+    color: white;
+}
+.hide {
+    display: none !important;
+}
+#GUI {
+    display: block;
+    margin: 0;
+    padding: 4px 4px;
+    width: 100%;
+}
+#GUI h1 {
+    font-size: 18px;
+    color: yellow;
+}
+.center {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    margin-top: -96px;
+    line-height: 100%;
+    text-align: center;
+}
+.center h1 {
+    font-size: 48px;
+    color: yellow;
+}
+.center h2 {
+    font-size: 24px;
+    color: yellow;
+}
+.center button {
+    font-family: "8bit";
+    border: 0;
+    margin: 16px 0;
+    padding: 12px;
+    font-size: 24px;
+    background: yellow;
+    color: black;
+}
