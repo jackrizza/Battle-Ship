@@ -4,7 +4,7 @@
   "description": "space battle",
   "main": "index.js",
   "scripts": {
-    "test": "browserify gameFiles/main.js -o window/bundle.js && electron .",
+    "test": "browserify gameFiles/bundler.main.js -o window/bundle.js && electron .",
     "build": "electron-packager ~/Documents/space\\ battle space\\ battle --platform=darwin"
   },
   "author": "Augustus Rizza",

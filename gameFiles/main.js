@@ -1,16 +1,10 @@
-let Player = require("./player");
-let background = new Audio('../assets/background.wav');
-let user;
-background.addEventListener('ended', function () {
-    this.currentTime = 0;
-    this.play();
-}, false);
-background.play();
-
-
-let playGame = _ => {
-    document.getElementById("app").innerHTML = `
-        <div id="debug" class="hide">
+let game = {
+    Player : require("./player"),
+    debug : "",
+    user : null,
+    setUp: _ => {
+        document.getElementById("app").innerHTML = `
+        <div id="debug" class="${game.debug}">
         <span>Adjacent : </span><span id="adjacent"></span>
         <span>Oppisite : </span><span id="oppisite"></span>
         <span>Hypotenuse : </span><span id="hypotenuse"></span>
@@ -21,33 +15,33 @@ let playGame = _ => {
         <h1>XP : <span id="xp"></span></h1>
         </div>
     `;
-    user = new Player("Jack", 100, 0);
-    user.createPlayer()
-    user.controlPlayer()
-    user.GUI();
-}
+        game.user = new game.Player("Jack", 100, 0);
+        game.user.createPlayer()
+        game.user.controlPlayer()
+        game.user.GUI();
+    },
 
 
-
-playGame();
-
-
-setInterval(_ => {
-    if (user.health > 0) {
-        user.addXp();
-        user.loseHealth();
-    } else if (user.health == 0) {
-        document.getElementById("app").innerHTML = `
+    update: _ => {
+        if (game.user.health > 0) {
+            // game play
+        } else if (game.user.health == 0) {
+            // game over
+            document.getElementById("app").innerHTML = `
         <div class="center">
             <h1>Game Over</h1>
-            <h2>Score : ${user.xp}</h2>
+            <h2>Score : ${game.user.xp}</h2>
             <br />
             <button id="restartGame">Play Again</button>
         </div>
         `;
-        user = null;
-        document.getElementById("restartGame").addEventListener('click', _ => {
-            playGame();
-        });
+        game.user = null;
+            document.getElementById("restartGame").addEventListener('click', _ => {
+                game.setUp();
+            });
+        }
     }
-}, 1000);
+
+}
+
+module.exports = game;

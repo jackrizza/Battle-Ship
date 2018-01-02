@@ -33,19 +33,23 @@ class Bullet {
 
 module.exports = Bullet;
 },{}],2:[function(require,module,exports){
-let Player = require("./player");
+let game = require("./main.js");
 let background = new Audio('../assets/background.wav');
-let user;
 background.addEventListener('ended', function () {
     this.currentTime = 0;
     this.play();
 }, false);
 background.play();
-
-
-let playGame = _ => {
-    document.getElementById("app").innerHTML = `
-        <div id="debug" class="hide">
+game.setUp();
+setInterval(game.update(), 10);
+},{"./main.js":3}],3:[function(require,module,exports){
+let game = {
+    Player : require("./player"),
+    debug : "",
+    user : null,
+    setUp: _ => {
+        document.getElementById("app").innerHTML = `
+        <div id="debug" class="${game.debug}">
         <span>Adjacent : </span><span id="adjacent"></span>
         <span>Oppisite : </span><span id="oppisite"></span>
         <span>Hypotenuse : </span><span id="hypotenuse"></span>
@@ -56,37 +60,37 @@ let playGame = _ => {
         <h1>XP : <span id="xp"></span></h1>
         </div>
     `;
-    user = new Player("Jack", 100, 0);
-    user.createPlayer()
-    user.controlPlayer()
-    user.GUI();
-}
+        game.user = new game.Player("Jack", 100, 0);
+        game.user.createPlayer()
+        game.user.controlPlayer()
+        game.user.GUI();
+    },
 
 
-
-playGame();
-
-
-setInterval(_ => {
-    if (user.health > 0) {
-        user.addXp();
-        user.loseHealth();
-    } else if (user.health == 0) {
-        document.getElementById("app").innerHTML = `
+    update: _ => {
+        if (game.user.health > 0) {
+            // game play
+        } else if (game.user.health == 0) {
+            // game over
+            document.getElementById("app").innerHTML = `
         <div class="center">
             <h1>Game Over</h1>
-            <h2>Score : ${user.xp}</h2>
+            <h2>Score : ${game.user.xp}</h2>
             <br />
             <button id="restartGame">Play Again</button>
         </div>
         `;
-        user = null;
-        document.getElementById("restartGame").addEventListener('click', _ => {
-            playGame();
-        });
+        game.user = null;
+            document.getElementById("restartGame").addEventListener('click', _ => {
+                game.setUp();
+            });
+        }
     }
-}, 1000);
-},{"./player":3}],3:[function(require,module,exports){
+
+}
+
+module.exports = game;
+},{"./player":4}],4:[function(require,module,exports){
 const Sprites = require("./sprites");
 const Bullet = require("./bullet");
 class Player {
@@ -139,18 +143,29 @@ class Player {
             angle = Math.asin(oppisite / hypotenuse),
             // convert the angle of the right angle triangle into the total degrees that the sprite has to turn to from 0
             degrees = angle * (180 / Math.PI) + q;
-        // this is fucking ridiculous but
-        // https://math.stackexchange.com/questions/453334/how-to-reverse-a-range-of-numbers
+        
+        /*
+        * In quad 1 and 3 the angles get reversed so where it is suppose to be 90°
+        * It is 180°, vise versa.
+        * This progam along with the help of 
+        * Tomas @ https://math.stackexchange.com/a/453342
+        * the program works sucsessfully.
+        */
         if (quad == 1 || quad == 3) {
+            // find the range of numbers
             let old = degrees,
+                // Min and max are inside its paramaters by 1°
+                // because at exact min and max they are considered
+                // to be in the next or past quad.
                 min = quad * 90 + 1,
                 max = (quad + 1) * 90 - 1,
                 total = min + max;
+            // flip the number
             degrees = degrees - total;
-            degrees = Math.sqrt(degrees * degrees)
+            // make all numbers positive
+            degrees = Math.sqrt(degrees * degrees);
         }
-        this.debug(hypotenuse, adjacent, oppisite, degrees)
-
+        this.debug(hypotenuse, adjacent, oppisite, degrees);
         return Math.ceil(degrees);
     }
     Q(mX, mY) {
@@ -228,7 +243,7 @@ class Player {
 }
 
 module.exports = Player;
-},{"./bullet":1,"./sprites":4}],4:[function(require,module,exports){
+},{"./bullet":1,"./sprites":5}],5:[function(require,module,exports){
 class Sprites {
     constructor() {
         this.app = document.getElementById("app");
