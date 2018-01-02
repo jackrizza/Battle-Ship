@@ -1,9 +1,7 @@
-let game = require("./main.js");
-let background = new Audio('../assets/background.wav');
-background.addEventListener('ended', function () {
-    this.currentTime = 0;
-    this.play();
-}, false);
-background.play();
-game.setUp();
-setInterval(game.update(), 10);
+let Game = require("./main.js");
+let game = new Game(); // new instances of game
+game.music(); // start music
+game.setUp(); // setup game
+window.setInterval(_ => {
+    game.update(); // check scores/xp and health
+}, 16.66); // 60 times seconds
