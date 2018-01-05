@@ -50,14 +50,14 @@ class Player {
             angle = Math.asin(oppisite / hypotenuse),
             // convert the angle of the right angle triangle into the total degrees that the sprite has to turn to from 0
             degrees = angle * (180 / Math.PI) + q;
-        
+
         /*
-        * In quad 1 and 3 the angles get reversed so where it is suppose to be 90°
-        * It is 180°, vise versa.
-        * This progam along with the help of 
-        * Tomas @ https://math.stackexchange.com/a/453342
-        * the program works sucsessfully.
-        */
+         * In quad 1 and 3 the angles get reversed so where it is suppose to be 90°
+         * It is 180°, vise versa.
+         * This progam along with the help of 
+         * Tomas @ https://math.stackexchange.com/a/453342
+         * the program works sucsessfully.
+         */
         if (quad == 1 || quad == 3) {
             // find the range of numbers
             let old = degrees,
@@ -139,8 +139,8 @@ class Player {
         this.GUI();
     }
 
-    addXp() {
-        this.xp++;
+    addXp(xp = 1) {
+        this.xp = this.xp + xp;
         this.GUI();
     }
     GUI() {
